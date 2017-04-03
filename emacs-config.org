@@ -1,0 +1,13 @@
+#+AUTHOR: Mark Solomon
+* Intro
+  Setting up a literate emacs config: have to start from somewhere.
+* Initial Setup
+  In the file `init.el`, basic modifications and loading of other
+  files.
+* Packages
+  In the file `lisp/packages.el`, packages to load and hooks that
+  control the execution.
+* Keybindings
+  In the file `lisp/bindings.el`, setup custom keymaps &c.
+* Custom functions
+  In the file `lisp/custom-fun.el`, any misc. functions that are my own.
