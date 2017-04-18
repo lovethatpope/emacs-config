@@ -79,9 +79,6 @@
   (provide 'packages)
   #+END_SRC
 
-* Common configuration
-  I've done away with the file `common-config.el`, in favor of having
-  this code load in `init.el`.
 
 * Keybindings
   In the file `lisp/bindings.el`, setup custom keymaps &c.
