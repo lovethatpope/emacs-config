@@ -4,10 +4,122 @@
 * Initial Setup
   In the file `init.el`, basic modifications and loading of other
   files.
+
+  I've been doing this for years, but the syntax used
+  [[https://github.com/jordonbiondo/.emacs.d/blob/master/init.el][here]] is much cleaner.
+
+  #+BEGIN_SRC elisp :tangle dist/init.el :exports code
+    (mapc (lambda (mode) (when (fboundp mode) (apply mode '(-1))))
+    '(tool-bar-mode
+      tooltip-mode
+      menu-bar-mode
+      scroll-bar-mode
+      blink-cursor-mode))
+
+    (setq ring-bell-function 'ignore
+          inhibit-startup-screen t
+          indent-tabs-mode nil
+          initial-scratch-message nil
+          require-final-newline t
+          next-line-add-newlines t
+          resize-minibuffer-frame t
+          column-number-mode t)
+
+    (column-number-mode 1)
+
+
+  #+END_SRC
+
+  Some old things that I'm used to. It might even be the case that
+  some of these default values are not the same in newer versions,
+  but it would require research, and hey, it runs.
+
+  #+BEGIN_SRC elisp :tangle dist/init.el :exports code
+  (custom-set-faces)
+  (load-theme 'wombat)
+  (setq-default fill-column 80)
+  (setq-default indent-tabs-mode nil)
+  (put 'downcase-region 'disabled nil)
+  (put 'upcase-region 'disabled nil)
+  (put 'scroll-left 'disabled nil)
+  (put 'narrow-to-region 'disabled nil)
+  (fset 'yes-or-no-p 'y-or-n-p)
+  (setq sentence-end-double-space nil)
+  #+END_SRC
+
+  UTF-8 encoding as a default. I've been told that this is a
+  good thing.
+
+  #+BEGIN_SRC elisp :tangle dist/init.el :exports code
+  (prefer-coding-system       'utf-8)
+  (set-default-coding-systems 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
+  (setq default-buffer-file-coding-system 'utf-8)
+  (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+  #+END_SRC
+
+
+  The rest of this configuration is in the `lisp` directory.
+  #+BEGIN_SRC elisp :tangle dist/init.el :exports code
+  (add-to-list 'load-path "~/.emacs.d/lisp")
+  (require 'packages)
+  (require 'bindings)
+  (require 'org-config)
+  (require 'custom-fun)
+  #+END_SRC
+
 * Packages
   In the file `lisp/packages.el`, packages to load and hooks that
   control the execution.
+
+
+  Finally:
+  #+BEGIN_SRC elisp :tangle dist/lisp/packages.el :exports code
+  (provide 'packages)
+  #+END_SRC
+
+* Common configuration
+  I've done away with the file `common-config.el`, in favor of having
+  this code load in `init.el`.
+
 * Keybindings
   In the file `lisp/bindings.el`, setup custom keymaps &c.
+
+  Finally:
+  #+BEGIN_SRC elisp :tangle dist/lisp/bindings.el :exports code
+  (provide 'bindings)
+  #+END_SRC
+
+* Org-config
+  In the file `lisp/org-config.el`, store separate information on the variables
+  and such for org.
+
+  Finally:
+  #+BEGIN_SRC elisp :tangle lisp/org-config.el
+  (provide 'org-config)
+  #+END_SRC
 * Custom functions
   In the file `lisp/custom-fun.el`, any misc. functions that are my own.
+
+  #+BEGIN_SRC elisp :tangle dist/lisp/custom-fun.el :exports code
+    (defun sm-lambda-mode-hook ()
+      (font-lock-add-keywords
+       nil `(("\\<lambda\\>"
+              (0 (progn (compose-region (match-beginning 0) (match-end 0)
+                                        ,(make-char 'greek-iso8859-7 107))
+                        nil))))))
+    (add-hook 'emacs-lisp-mode-hook 'sm-lambda-mode-hook)
+    (add-hook 'lisp-interactive-mode-hook 'sm-lambda-mode-hook)
+    (add-hook 'lisp-mode-hook 'sm-lambda-mode-hook)
+    (add-hook 'scheme-mode-hook 'sm-lambda-mode-hook)
+    (add-hook 'ruby-mode-hook 'sm-lambda-mode-hook)
+    (add-hook 'python-mode-hook 'sm-lambda-mode-hook)
+
+  #+END_SRC
+
+  Finally:
+
+  #+BEGIN_SRC elisp :tangle dist/lisp/custom-fun.el :exports code
+  (provide 'custom-fun)
+  #+END_SRC
