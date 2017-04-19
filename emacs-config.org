@@ -65,7 +65,6 @@
   (add-to-list 'load-path "~/.emacs.d/lisp")
   (require 'packages)
   (require 'bindings)
-  (require 'org-config)
   (require 'custom-fun)
   #+END_SRC
 
@@ -88,14 +87,6 @@
   (provide 'bindings)
   #+END_SRC
 
-* Org-config
-  In the file `lisp/org-config.el`, store separate information on the variables
-  and such for org.
-
-  Finally:
-  #+BEGIN_SRC elisp :tangle lisp/org-config.el
-  (provide 'org-config)
-  #+END_SRC
 * Custom functions
   In the file `lisp/custom-fun.el`, any misc. functions that are my own.
 
